@@ -1,3 +1,5 @@
+# A logic-based agent meant to solve Minesweeper games
+
 from utils.framework import Player
 from random import choice
 
@@ -9,13 +11,18 @@ class Logic(Player):
         self.size = size
         self.bombs = bombs
 
+    # Decides what move to play next
     def move(self, game):
+        # Possible moves for the game to choose
         moves = game.moves()
 
+        # A set of moves where the agent can be sure there is a bomb
         bombs = set()
 
+        # A set of moves that the agent knows it can safely play
         validmoves = set()
 
+        # Variables for all elements of tiles immediately surrounding the tile being checked.
         topleft = None
         top = None
         topright = None
@@ -50,6 +57,7 @@ class Logic(Player):
         bottomvalue = None
         bottomrightvalue = None
 
+        # Mark all tiles surrounding revealed zeroes as valid
         for r in range(self.size):
             for c in range(self.size):
                 center = self.grid[r][c]
@@ -148,10 +156,12 @@ class Logic(Player):
                 bottomrightvalue = None
                 centervalue = None
 
+        # Return the previously marked valid moves
         for move in moves:
             if move in validmoves:
                 return move
 
+        # If a revealed tile's number matches the amount of hidden spaces around it, the hidden spaces are marked as bombs
         for r in range(self.size):
             for c in range(self.size):
                 center = self.grid[r][c]
@@ -272,6 +282,8 @@ class Logic(Player):
                 bottomrightvalue = None
                 centervalue = None
 
+        # If the amount of bombs surrounding a tile matches the number on the tile, mark all other surrounding tiles
+        # as valid moves
         for r in range(self.size):
             for c in range(self.size):
                 center = self.grid[r][c]
@@ -413,15 +425,17 @@ class Logic(Player):
                 bottomrightvalue = None
                 centervalue = None
 
+        # Return all moves in the valid moves set
         for move in moves:
             if move in validmoves:
                 return move
 
+        # If all bombs have been marked, reveal all other tiles
         for move in moves:
             if move not in bombs and len(bombs) == self.bombs:
                 return move
 
-
+        # If there are no other options, return a random move
         randommove = choice(game.moves())
         while randommove in bombs:
             randommove = choice(game.moves())

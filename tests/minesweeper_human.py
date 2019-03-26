@@ -1,3 +1,5 @@
+# Allows a human player to try to solve the puzzle
+
 from games.minesweeper import Minesweeper
 from players.human import Human
 

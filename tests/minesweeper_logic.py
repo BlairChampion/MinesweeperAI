@@ -1,3 +1,5 @@
+# Uses the logic agent to try to solve the minesweeper game
+
 from games.minesweeper import Minesweeper
 from players.logic import Logic
 

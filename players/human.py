@@ -1,3 +1,5 @@
+# Allows a human player to see the available moves and choose one
+
 from utils.framework import Player
 
 
